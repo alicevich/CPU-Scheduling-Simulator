@@ -1,10 +1,9 @@
 // Alice Vichitthavong
 // CPSC 341
 // HW1: CPU Scheduler Simulation
-// 4/18/13
 
 // This program displays a simulation run of one of the CPU Scheduler algorithms
-// based on user's input for command line arguments: 
+// based on user's input for command token arguments: 
 // SJF  - Shortest Job First 
 // SRTF - Shortest Remaining Time First
 // NP   - Non-Preemptive Priority
@@ -23,55 +22,56 @@
 #include "PriorityQ.h"
 using namespace std;
 
+bool isValidScheduler(string scheduleType)
+{
+	return scheduleType.compare("sjf") == 0 
+		|| scheduleType.compare("srtf") == 0 
+		|| scheduleType.compare("np") == 0 
+		|| scheduleType.compare("pp") == 0;
+}
+
 int main(int argc, char* argv[]) {
-	// Check for valid arguments count
 	if(argc < 3) {
-		cerr << "Error: Too few arguments" << endl;
+		cerr << "Error: Please enter \"./a.out <file name> <SJF, SRTF, NP, PP>\"" << endl;
 		return 0;
 	} else {
-		std::string filename = argv[1];
-		std::string schedType = string(argv[2]);
-		std::transform(schedType.begin(), schedType.end(), schedType.begin(), ::tolower);
+		string filename = argv[1];
+		string schedType = string(argv[2]);
+		transform(schedType.begin(), schedType.end(), schedType.begin(), ::tolower);
 		
-		// Check for valid scheduler algorithm
-		if(schedType.compare("sjf") != 0 && schedType.compare("srtf") != 0 && 
-				schedType.compare("np") != 0 && schedType.compare("pp") != 0) {
-			cerr << "Error: Invalid argument " << argv[2] << endl;
+		if(!isValidScheduler(schedType)) {
+			cerr << "Error: Invalid scheduling algorithm. Please enter \"./a.out <file name> <SJF, SRTF, NP, PP>\"" << endl;
 			return 0;
 		}
 		
-		// Check for valid file name
-		ifstream infile;
-		infile.open(filename.c_str());
-		if(!infile.is_open()) {
-			cerr << "Error: Invalid file name" << endl;
+		ifstream file;
+		file.open(filename.c_str());
+		if(!file.is_open()) {
+			cerr << "Error: File does not exist" << endl;
 			return 0;
 		} else {
-			string line;
 			// Read in all processes from file and store into ArrivalQueue.
 			// ArrivalQueue sorted by order of arrival. 
-			ArrivalQueue q;
-			while(!infile.eof()) {
-				infile >> line;
-				// Check again for eof, so won't read last input line twice
-				if(!infile.eof()) {
-					string id_str = "";
-					string arrival_str = "";
-					string burst_str = "";
-					string priority_str = "";
+			string token;
+			ArrivalQueue arrivalQueue;
+			while(!file.eof()) {
+				file >> token;	
+				// Check again for eof, so won't read last input token twice
+				if(!file.eof()) {
+					string id_str, arrival_str, burst_str, priority_str;
+				
+					id_str = token;
+						file >> token;
+					arrival_str = token;
+						file >> token;
+					burst_str = token;
+						file >> token;
+					priority_str = token;
 					
-					id_str = line;
-					infile >> line;
-					arrival_str = line;
-					infile >> line;
-					burst_str = line;
-					infile >> line;
-					priority_str = line;
-					
-					std::istringstream id_ss(id_str);
-					std::istringstream arrival_ss(arrival_str);
-					std::istringstream burst_ss(burst_str);
-					std::istringstream priority_ss(priority_str);
+					istringstream id_ss(id_str);
+					istringstream arrival_ss(arrival_str);
+					istringstream burst_ss(burst_str);
+					istringstream priority_ss(priority_str);
 					
 					int id, arrival, burst, priority;
 					
@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
 					burst_ss >> burst;
 					priority_ss >> priority;
 					
-					q.add(id,arrival,burst,priority);
+					arrivalQueue.add(id, arrival, burst, priority);
 				}
 			}
 			
@@ -101,17 +101,17 @@ int main(int argc, char* argv[]) {
 			if(schedType == "sjf") {
 				BurstPriorityQ RQ; 
 				
-				while(!q.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
 					// RQ(sorted in order of burst time)
-					while(!q.isEmpty() && i >= q.peekArrival()) {
+					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
-						id = q.peekID();
-						arrival = q.peekArrival();
-						burst = q.peekBurst();
-						priority = q.peekPriority();
+						id = arrivalQueue.peekID();
+						arrival = arrivalQueue.peekArrival();
+						burst = arrivalQueue.peekBurst();
+						priority = arrivalQueue.peekPriority();
 						RQ.add(id, arrival, burst, priority);
-						q.pop();
+						arrivalQueue.pop();
 					}
 					
 					// Process ready for execution
@@ -147,15 +147,15 @@ int main(int argc, char* argv[]) {
 				int currentArrival;
 				int totalTimeCount = 0;
 				
-				while(!q.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
 					// RQ(sorted in order of burst time).
-					while(!q.isEmpty() && i >= q.peekArrival()) {
+					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
-						id = q.peekID();
-						arrival = q.peekArrival();
-						burst = q.peekBurst();
-						priority = q.peekPriority();
+						id = arrivalQueue.peekID();
+						arrival = arrivalQueue.peekArrival();
+						burst = arrivalQueue.peekBurst();
+						priority = arrivalQueue.peekPriority();
 						map[id] = false;
 						burstMap[id] = burst;
 						totalTimeCount += burst; 
@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
 								} 
 							}
 						} 
-						q.pop();
+						arrivalQueue.pop();
 					}
 					
 					// CPU currently running a process
@@ -261,17 +261,17 @@ int main(int argc, char* argv[]) {
 			} else if(schedType == "np") {
 				PriorityQ RQ; 
 				
-				while(!q.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
 					// RQ(sorted in order of burst time)
-					while(!q.isEmpty() && i >= q.peekArrival()) {
+					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
-						id = q.peekID();
-						arrival = q.peekArrival();
-						burst = q.peekBurst();
-						priority = q.peekPriority();
+						id = arrivalQueue.peekID();
+						arrival = arrivalQueue.peekArrival();
+						burst = arrivalQueue.peekBurst();
+						priority = arrivalQueue.peekPriority();
 						RQ.add(id, arrival, burst, priority);
-						q.pop();
+						arrivalQueue.pop();
 					}
 					
 					// Process ready for execution
@@ -308,15 +308,15 @@ int main(int argc, char* argv[]) {
 				int currentArrival;
 				int totalTimeCount = 0;
 				
-				while(!q.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
 					// RQ(sorted in order of priority value). 
-					while(!q.isEmpty() && i >= q.peekArrival()) {
+					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
-						id = q.peekID();
-						arrival = q.peekArrival();
-						burst = q.peekBurst();
-						priority = q.peekPriority();
+						id = arrivalQueue.peekID();
+						arrival = arrivalQueue.peekArrival();
+						burst = arrivalQueue.peekBurst();
+						priority = arrivalQueue.peekPriority();
 						map[id] = false;
 						burstMap[id] = burst;
 						priorityMap[id] = priority;
@@ -368,7 +368,7 @@ int main(int argc, char* argv[]) {
 								} 
 							}
 						} 
-						q.pop();
+						arrivalQueue.pop();
 					}
 					
 					// CPU currently running a process
