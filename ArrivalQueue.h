@@ -1,8 +1,6 @@
 // Alice Vichitthavong
 // CPSC 341
 // HW1: CPU Scheduler Simulator
-// 4-18-13
-// ArrivalQueue.h
 
 //Priority: arrival time, lower process id as tie breaker
 
@@ -21,8 +19,8 @@ class ArrivalQueue {
 	private:
 		Node1* head;
 		int size;
-		ArrivalQueue(const ArrivalQueue&); //suppress copy constructor
-		ArrivalQueue& operator=(const ArrivalQueue&); //suppress overloading assignment operator
+		ArrivalQueue(const ArrivalQueue&); 
+		ArrivalQueue& operator=(const ArrivalQueue&); 
 	public:
 		ArrivalQueue();
 		~ArrivalQueue();

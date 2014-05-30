@@ -1,11 +1,8 @@
 // Alice Vichitthavong
 // CPSC 341
 // HW1: CPU Scheduler Simulator
-// 4-18-13
-// BurstPriorityQ.h
 
 //Priority: burst time, lower process id as tie breaker
-
 
 #ifndef BURSTPRIORITYQ_H
 #define BURSTPRIORITYQ_H
@@ -21,8 +18,8 @@ struct Node2 {
 class BurstPriorityQ {
 	private:
 		Node2* head;
-		BurstPriorityQ(const BurstPriorityQ&); //suppress copy constructor
-		BurstPriorityQ& operator=(const BurstPriorityQ&); //suppress overloading assignment operator
+		BurstPriorityQ(const BurstPriorityQ&); 
+		BurstPriorityQ& operator=(const BurstPriorityQ&); 
 	public:
 		BurstPriorityQ();
 		~BurstPriorityQ();

@@ -1,8 +1,6 @@
 // Alice Vichitthavong
 // CPSC 341
 // HW1: CPU Scheduler Simulator
-// 4-18-13
-// ArrivalQueue.cpp
 
 #include <iostream>
 #include "ArrivalQueue.h"
@@ -22,13 +20,13 @@ ArrivalQueue::~ArrivalQueue() {
 	}
 }
 
-void ArrivalQueue::add(int a, int b, int c, int d) {
+void ArrivalQueue::add(int id, int arrival, int burst, int priority) {
 	size++;
 	Node1* insert = new Node1;
-	insert->id = a;
-	insert->arrival = b;
-	insert->burst = c;
-	insert->priority = d;
+	insert->id = id;
+	insert->arrival = arrival;
+	insert->burst = burst;
+	insert->priority = priority;
 	insert->next = 0;
 	
 	// Empty list 

@@ -1,8 +1,6 @@
 // Alice Vichitthavong
 // CPSC 341
 // HW1: CPU Scheduler Simulator
-// 4-18-13
-// PriorityQ.h
 
 // Priority: priority value, lower process id as tie breaker
 
@@ -20,8 +18,8 @@ struct Node3{
 class PriorityQ {
 	private:
 		Node3* head;
-		PriorityQ(const PriorityQ&); //suppress copy constructor
-		PriorityQ& operator=(const PriorityQ&); //suppress overloading assignment operator
+		PriorityQ(const PriorityQ&); 
+		PriorityQ& operator=(const PriorityQ&);
 	public:
 		PriorityQ();
 		~PriorityQ();

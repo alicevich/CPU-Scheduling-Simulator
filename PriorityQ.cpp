@@ -1,8 +1,6 @@
 // Alice Vichitthavong
 // CPSC 341
 // HW1: CPU Scheduler Simulator
-// 4-18-13
-// PriorityQ.cpp
 
 #include <iostream>
 #include "PriorityQ.h"
@@ -21,12 +19,12 @@ PriorityQ::~PriorityQ() {
 	}
 }
 
-void PriorityQ::add(int a, int b, int c, int d) {
+void PriorityQ::add(int id, int arrival, int burst, int priority) {
 	Node3* insert = new Node3;
-	insert->id = a;
-	insert->arrival = b;
-	insert->burst = c;
-	insert->priority = d;
+	insert->id = id;
+	insert->arrival = arrival;
+	insert->burst = burst;
+	insert->priority = priority;
 	insert->next = 0;
 	
 	// Empty list

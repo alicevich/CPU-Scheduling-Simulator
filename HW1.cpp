@@ -3,7 +3,7 @@
 // HW1: CPU Scheduler Simulation
 
 // This program displays a simulation run of one of the CPU Scheduler algorithms
-// based on user's input for command token arguments: 
+// based on user's input for command line arguments: 
 // SJF  - Shortest Job First 
 // SRTF - Shortest Remaining Time First
 // NP   - Non-Preemptive Priority
@@ -61,11 +61,11 @@ int main(int argc, char* argv[]) {
 					string id_str, arrival_str, burst_str, priority_str;
 				
 					id_str = token;
-						file >> token;
+					file >> token;
 					arrival_str = token;
-						file >> token;
+					file >> token;
 					burst_str = token;
-						file >> token;
+					file >> token;
 					priority_str = token;
 					
 					istringstream id_ss(id_str);
@@ -97,34 +97,34 @@ int main(int argc, char* argv[]) {
 			queue<int> burstQ;
 			queue<int> arrivalQ;
 			
-			// Display Shortest Job First simulation if "sjf" passed in
+			// Display Shortest Job First simulation
 			if(schedType == "sjf") {
-				BurstPriorityQ RQ; 
+				BurstPriorityQ burstPriorityQ; 
 				
-				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !burstPriorityQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
-					// RQ(sorted in order of burst time)
+					// burstPriorityQ(sorted in order of burst time)
 					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
 						id = arrivalQueue.peekID();
 						arrival = arrivalQueue.peekArrival();
 						burst = arrivalQueue.peekBurst();
 						priority = arrivalQueue.peekPriority();
-						RQ.add(id, arrival, burst, priority);
+						burstPriorityQ.add(id, arrival, burst, priority);
 						arrivalQueue.pop();
 					}
 					
 					// Process ready for execution
-					if(!RQ.isEmpty() && i >= RQ.peekArrival()) {
+					if(!burstPriorityQ.isEmpty() && i >= burstPriorityQ.peekArrival()) {
 						idle = false;
 						outputIdle = false;
-						int id = RQ.peekID();
+						int id = burstPriorityQ.peekID();
 						cout << "Time " << i << " Process " << id << endl;
-						i += RQ.peekBurst();
+						i += burstPriorityQ.peekBurst();
 						terminationQ.push(i);
-						arrivalQ.push(RQ.peekArrival());
-						burstQ.push(RQ.peekBurst());
-						RQ.pop();
+						arrivalQ.push(burstPriorityQ.peekArrival());
+						burstQ.push(burstPriorityQ.peekBurst());
+						burstPriorityQ.pop();
 					// CPU is idle
 					} else {
 						idle = true;
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 				
 			// Display Shortest Remaining Time First simulation
 			} else if(schedType == "srtf") {
-				BurstPriorityQ RQ; 
+				BurstPriorityQ burstPriorityQ; 
 				std::map<int, bool> map;
 				std::map<int, int> burstMap;
 				int remainingTime;
@@ -147,9 +147,9 @@ int main(int argc, char* argv[]) {
 				int currentArrival;
 				int totalTimeCount = 0;
 				
-				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !burstPriorityQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
-					// RQ(sorted in order of burst time).
+					// burstPriorityQ(sorted in order of burst time).
 					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
 						id = arrivalQueue.peekID();
@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
 						map[id] = false;
 						burstMap[id] = burst;
 						totalTimeCount += burst; 
-						RQ.add(id, arrival, burst, priority);
+						burstPriorityQ.add(id, arrival, burst, priority);
 						
 						// Compare new arrival's burst time to current running 
 						// process's remaining burst time. Run the process with
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
 							if(burst > remainingTime) {
 							} else if( burst < remainingTime) {
 								if(remainingTime >= 1) {
-									RQ.add(currentID, currentArrival, remainingTime, 0);
+									burstPriorityQ.add(currentID, currentArrival, remainingTime, 0);
 								} else {
 									map[currentID] = true;
 								}
@@ -183,11 +183,11 @@ int main(int argc, char* argv[]) {
 								currentArrival = arrival;
 								remainingTime = burst;
 								cout << "Time " << i << " Process " << currentID << endl;
-								RQ.pop();
+								burstPriorityQ.pop();
 							} else { 
 								if(id < currentID) {
 									if(remainingTime >= 1) {
-										RQ.add(currentID, currentArrival, remainingTime, 0);
+										burstPriorityQ.add(currentID, currentArrival, remainingTime, 0);
 									} else {
 										map[currentID] = true;
 									}
@@ -202,7 +202,7 @@ int main(int argc, char* argv[]) {
 									currentArrival = arrival;
 									remainingTime = burst;
 									cout << "Time " << i << " Process " << currentID << endl;
-									RQ.pop();
+									burstPriorityQ.pop();
 								} 
 							}
 						} 
@@ -216,31 +216,31 @@ int main(int argc, char* argv[]) {
 							terminationQ.push(i+1);
 							arrivalQ.push(currentArrival);
 							burstQ.push(burstMap[currentID]);
-							if(RQ.isEmpty()) {
+							if(burstPriorityQ.isEmpty()) {
 								idle = true;
 								outputIdle = true;
 								cout << "Time " << i+1 << " Idle" << endl;
 							}else {
 								idle = false;
 								outputIdle = false;
-								currentID = RQ.peekID();
-								currentArrival = RQ.peekArrival();
-								remainingTime = RQ.peekBurst();
+								currentID = burstPriorityQ.peekID();
+								currentArrival = burstPriorityQ.peekArrival();
+								remainingTime = burstPriorityQ.peekBurst();
 								cout << "Time " << i+1 << " Process " << currentID << endl;
-								RQ.pop();
+								burstPriorityQ.pop();
 							}
 						} else {
 							remainingTime--;
 						}
-					// CPU is currently idle and a new process in RQ is ready for execution
-					} else if(!RQ.isEmpty() && i >= RQ.peekArrival()) {
-						currentID = RQ.peekID();
-						currentArrival = RQ.peekArrival();
-						remainingTime = RQ.peekBurst();
+					// CPU is currently idle and a new process in burstPriorityQ is ready for execution
+					} else if(!burstPriorityQ.isEmpty() && i >= burstPriorityQ.peekArrival()) {
+						currentID = burstPriorityQ.peekID();
+						currentArrival = burstPriorityQ.peekArrival();
+						remainingTime = burstPriorityQ.peekBurst();
 						idle = false;
 						outputIdle = false;
 						cout << "Time " << i << " Process " << currentID << endl;
-						RQ.pop();
+						burstPriorityQ.pop();
 						remainingTime--;
 					// CPU is currently idle and will stay idle
 					} else {
@@ -259,32 +259,32 @@ int main(int argc, char* argv[]) {
 				
 			// Display Nonpreemptive Priority simulation 
 			} else if(schedType == "np") {
-				PriorityQ RQ; 
+				PriorityQ priorityQ; 
 				
-				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !priorityQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
-					// RQ(sorted in order of burst time)
+					// priorityQ(sorted in order of burst time)
 					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
 						id = arrivalQueue.peekID();
 						arrival = arrivalQueue.peekArrival();
 						burst = arrivalQueue.peekBurst();
 						priority = arrivalQueue.peekPriority();
-						RQ.add(id, arrival, burst, priority);
+						priorityQ.add(id, arrival, burst, priority);
 						arrivalQueue.pop();
 					}
 					
 					// Process ready for execution
-					if(!RQ.isEmpty() && i >= RQ.peekArrival()) {
+					if(!priorityQ.isEmpty() && i >= priorityQ.peekArrival()) {
 						idle = false;
 						outputIdle = false;
-						int id = RQ.peekID();
+						int id = priorityQ.peekID();
 						cout << "Time " << i << " Process " << id << endl;
-						i += RQ.peekBurst();
+						i += priorityQ.peekBurst();
 						terminationQ.push(i);
-						arrivalQ.push(RQ.peekArrival());
-						burstQ.push(RQ.peekBurst());
-						RQ.pop();
+						arrivalQ.push(priorityQ.peekArrival());
+						burstQ.push(priorityQ.peekBurst());
+						priorityQ.pop();
 					// CPU is idle
 					} else {
 						idle = true;
@@ -299,7 +299,7 @@ int main(int argc, char* argv[]) {
 				
 			// Display Preemptive Priority simulation
 			} else { 
-				PriorityQ RQ; 
+				PriorityQ priorityQ; 
 				std::map<int, bool> map;
 				std::map<int, int> priorityMap;
 				std::map<int, int> burstMap;
@@ -308,9 +308,9 @@ int main(int argc, char* argv[]) {
 				int currentArrival;
 				int totalTimeCount = 0;
 				
-				while(!arrivalQueue.isEmpty() || !RQ.isEmpty()) {
+				while(!arrivalQueue.isEmpty() || !priorityQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
-					// RQ(sorted in order of priority value). 
+					// priorityQ(sorted in order of priority value). 
 					while(!arrivalQueue.isEmpty() && i >= arrivalQueue.peekArrival()) {
 						int id, arrival, burst, priority;
 						id = arrivalQueue.peekID();
@@ -321,7 +321,7 @@ int main(int argc, char* argv[]) {
 						burstMap[id] = burst;
 						priorityMap[id] = priority;
 						totalTimeCount += burst; 
-						RQ.add(id, arrival, burst, priority);
+						priorityQ.add(id, arrival, burst, priority);
 						
 						// Compare new arrival's priority value to current running 
 						// process's priority value. Run the process with
@@ -330,7 +330,7 @@ int main(int argc, char* argv[]) {
 							if(priority > priorityMap[currentID]) {
 							} else if( priority < priorityMap[currentID]) {
 								if(remainingTime >= 1) {
-									RQ.add(currentID, currentArrival, remainingTime, priorityMap[currentID]);
+									priorityQ.add(currentID, currentArrival, remainingTime, priorityMap[currentID]);
 								} else {
 									map[currentID] = true;
 								}
@@ -345,11 +345,11 @@ int main(int argc, char* argv[]) {
 								currentArrival = arrival;
 								remainingTime = burst;
 								cout << "Time " << i << " Process " << currentID << endl;
-								RQ.pop();
+								priorityQ.pop();
 							} else { 
 								if(id < currentID) {
 									if(remainingTime >= 1) {
-										RQ.add(currentID, currentArrival, remainingTime, priorityMap[currentID]);
+										priorityQ.add(currentID, currentArrival, remainingTime, priorityMap[currentID]);
 									} else {
 										map[currentID] = true;
 									}
@@ -364,7 +364,7 @@ int main(int argc, char* argv[]) {
 									currentArrival = arrival;
 									remainingTime = burst;
 									cout << "Time " << i << " Process " << currentID << endl;
-									RQ.pop();
+									priorityQ.pop();
 								} 
 							}
 						} 
@@ -378,31 +378,31 @@ int main(int argc, char* argv[]) {
 							terminationQ.push(i+1);
 							arrivalQ.push(currentArrival);
 							burstQ.push(burstMap[currentID]);
-							if(RQ.isEmpty()) {
+							if(priorityQ.isEmpty()) {
 								idle = true;
 								outputIdle = true;
 								cout << "Time " << i+1 << " Idle" << endl;
 							}else {
 								idle = false;
 								outputIdle = false;
-								currentID = RQ.peekID();
-								currentArrival = RQ.peekArrival();
-								remainingTime = RQ.peekBurst();
+								currentID = priorityQ.peekID();
+								currentArrival = priorityQ.peekArrival();
+								remainingTime = priorityQ.peekBurst();
 								cout << "Time " << i+1 << " Process " << currentID << endl;
-								RQ.pop();
+								priorityQ.pop();
 							}
 						} else {
 							remainingTime--;
 						}
-					// CPU is currently idle and a new process in RQ is ready for execution
-					} else if(!RQ.isEmpty() && i >= RQ.peekArrival()) {
-						currentID = RQ.peekID();
-						currentArrival = RQ.peekArrival();
-						remainingTime = RQ.peekBurst();
+					// CPU is currently idle and a new process in priorityQ is ready for execution
+					} else if(!priorityQ.isEmpty() && i >= priorityQ.peekArrival()) {
+						currentID = priorityQ.peekID();
+						currentArrival = priorityQ.peekArrival();
+						remainingTime = priorityQ.peekBurst();
 						idle = false;
 						outputIdle = false;
 						cout << "Time " << i << " Process " << currentID << endl;
-						RQ.pop();
+						priorityQ.pop();
 						remainingTime--;
 					// CPU is currently idle and will stay idle
 					} else {
@@ -458,7 +458,7 @@ int main(int argc, char* argv[]) {
 				waitingQ.pop();
 			}
 			double avgWaitingTime = double(sum) / count;
-			printf("Average waiting  time: %.2f\n", avgWaitingTime);
+			printf("Average waiting time: %.2f\n", avgWaitingTime);
 			cout << "Worst-case waiting time: " << worstCaseTime << endl;
 		}
 	}
