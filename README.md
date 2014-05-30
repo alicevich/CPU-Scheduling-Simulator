@@ -1,6 +1,5 @@
 ## CPU-Scheduling-Simulator ##
 
-
 **Build:**	make
 
   **Run:**	./a.out <file name\> <SJF, SRTF, NP, PP\>
@@ -26,7 +25,6 @@ Sample output for test4.txt:
 	CPU Utilization: 100%
 	Average waiting time: 2.75
 	Worst-case waiting time: 8
-
 
 # Test Files #
 Files contain data inputs: process Id, arrival time, burst time, priority
