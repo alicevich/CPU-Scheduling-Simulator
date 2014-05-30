@@ -12,17 +12,20 @@ This program displays a simulation run of a CPU Scheduling algorithm listed belo
 
 Calculations for **CPU utilization, average waiting time, and worst-case  waiting time** are displayed at the end of each run. 
 
-Sample output for test4.txt:
+Sample output for: ./a.out &lt;test5.txt&gt; &lt;SRTF&gt;
 
 	Time 0 Process 1
-	Time 2 Process 2
-	Time 4 Process 3
-	Time 5 Process 2
-	Time 7 Process 4
-	Time 10 Process 1
-	CPU Utilization: 100%
-	Average waiting time: 2.75
-	Worst-case waiting time: 8
+	Time 13 Process 3
+	Time 14 Process 5
+	Time 15 Process 3
+	Time 19 Process 1
+	Time 26 Process 4
+	Time 46 Idle
+	Time 200 Process 2
+	CPU Utilization: 24%
+	Average waiting time: 6.60
+	Worst-case waiting time: 26
+
 # Test Files #
 Files contain data inputs: process Id, arrival time, burst time, priority
 # Scheduling Algorithms #
