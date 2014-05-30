@@ -1,4 +1,4 @@
-## CPU-Scheduling-Simulator ##
+# Build & Run #
 **Build:**	make
 
   **Run:**	./a.out &lt;file name&gt; &lt;SJF, SRTF, NP, PP&gt;
