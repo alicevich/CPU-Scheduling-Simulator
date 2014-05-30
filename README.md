@@ -1,29 +1,38 @@
-CPU-Scheduler-Simulator
-=======================
+## CPU-Scheduling-Simulator ##
 
-This program displays a simulation run of a CPU Scheduling algorithm
-based on user's input for command line arguments. 
 
-Calculations for CPU utilization, average waiting time, and worst-case waiting time
-are displayed at the end of each run. 
+**Build:**	make
 
-Test files contain data inputs: process Id, arrival time, burst time, priority
-Sample output for test1.txt:
+  **Run:**	./a.out <file name\> <SJF, SRTF, NP, PP\>
+
+# About #
+This program displays a simulation run of a CPU Scheduling algorithm listed below:
+
+- Shortest Job First 
+- Shortest Remaining Time First
+- Non-Preemptive Priority
+- Preemptive Priority
+
+Calculations for **CPU utilization, average waiting time, and worst-case  waiting time** are displayed at the end of each run. 
+
+Sample output for test4.txt:
+
 	Time 0 Process 1
-	Time 7 Process 3
-	Time 8 Process 4
-	Time 11 Process 2
+	Time 2 Process 2
+	Time 4 Process 3
+	Time 5 Process 2
+	Time 7 Process 4
+	Time 10 Process 1
 	CPU Utilization: 100%
-	Average waiting  time: 3.75
-	Worst-case waiting time: 9
+	Average waiting time: 2.75
+	Worst-case waiting time: 8
 
-SJF  - Shortest Job First 
-SRTF - Shortest Remaining Time First
-NP   - Non-Preemptive Priority
-PP   - Preemptive Priority
 
-For more info on scheduling algorithms: 
+# Test Files #
+Files contain data inputs: process Id, arrival time, burst time, priority
+
+# Scheduling Algorithms #
+
+For more info: 
 http://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/5_CPU_Scheduling.html
-
-
 
