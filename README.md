@@ -12,7 +12,7 @@ This program displays a simulation run of a CPU Scheduling algorithm listed belo
 
 Calculations for **CPU utilization, average waiting time, and worst-case  waiting time** are displayed at the end of each run. 
 
-Sample output for: ./a.out &lt;test5.txt&gt; &lt;SRTF&gt;
+Sample output for: **./a.out test5.txt SRTF**
 
 	Time 0 Process 1
 	Time 13 Process 3
