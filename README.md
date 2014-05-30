@@ -1,9 +1,7 @@
 ## CPU-Scheduling-Simulator ##
-
 **Build:**	make
 
   **Run:**	./a.out &lt;file name&gt; &lt;SJF, SRTF, NP, PP&gt;
-
 # About #
 This program displays a simulation run of a CPU Scheduling algorithm listed below:
 
@@ -25,11 +23,9 @@ Sample output for test4.txt:
 	CPU Utilization: 100%
 	Average waiting time: 2.75
 	Worst-case waiting time: 8
-
 # Test Files #
 Files contain data inputs: process Id, arrival time, burst time, priority
 # Scheduling Algorithms #
-
 For more info: 
 http://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/5_CPU_Scheduling.html
 
