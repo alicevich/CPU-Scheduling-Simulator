@@ -2,7 +2,7 @@
 
 **Build:**	make
 
-  **Run:**	./a.out <file name\> <SJF, SRTF, NP, PP\>
+  **Run:**	./a.out &lt;file name&gt; &lt;SJF, SRTF, NP, PP&gt;
 
 # About #
 This program displays a simulation run of a CPU Scheduling algorithm listed below:
@@ -28,7 +28,6 @@ Sample output for test4.txt:
 
 # Test Files #
 Files contain data inputs: process Id, arrival time, burst time, priority
-
 # Scheduling Algorithms #
 
 For more info: 
