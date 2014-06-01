@@ -31,7 +31,7 @@ bool isValidScheduler(string scheduleType)
 }
 
 int main(int argc, char* argv[]) {
-	if(argc == 3) {
+	if(argc != 3) {
 		cerr << "Error: Please enter \"./run <file name> <SJF, SRTF, NP, PP>\"" << endl;
 		return 0;
 	} else {
