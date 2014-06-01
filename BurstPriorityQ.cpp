@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "BurstPriorityQ.h"
-#include "Node.h"
+#include "Queue.h"
 using namespace std;
 
 BurstPriorityQ::BurstPriorityQ() {
@@ -70,29 +70,4 @@ void BurstPriorityQ::add(int id, int arrival, int burst, int priority) {
 	}
 }
 
-void BurstPriorityQ::pop() {
-	if(head->next == 0) {
-		delete head;
-		head = 0;
-	} else {
-		Node* temp = head->next;
-		delete head;
-		head = temp;
-	}
-}
 
-bool BurstPriorityQ::isEmpty() const {
-	return head == 0;
-}
-
-int BurstPriorityQ::peekArrival() const {
-	return head->arrival;
-}
-
-int BurstPriorityQ::peekID() const {
-	return head->id;
-}
-
-int BurstPriorityQ::peekBurst() const {
-	return head->burst;
-}

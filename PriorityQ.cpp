@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "PriorityQ.h"
-#include "Node.h"
+#include "Queue.h"
 using namespace std;
 
 PriorityQ::PriorityQ() {
@@ -69,29 +69,4 @@ void PriorityQ::add(int id, int arrival, int burst, int priority) {
 	}
 }
 
-void PriorityQ::pop() {
-	if(head->next == 0) {
-		delete head;
-		head = 0;
-	} else {
-		Node* temp = head->next;
-		delete head;
-		head = temp;
-	}
-}
 
-bool PriorityQ::isEmpty() const {
-	return head == 0;
-}
-
-int PriorityQ::peekArrival() const {
-	return head->arrival;
-}
-
-int PriorityQ::peekID() const {
-	return head->id;
-}
-
-int PriorityQ::peekBurst() const {
-	return head->burst;
-}

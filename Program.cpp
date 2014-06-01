@@ -32,7 +32,7 @@ bool isValidScheduler(string scheduleType)
 
 int main(int argc, char* argv[]) {
 	if(argc < 3) {
-		cerr << "Error: Please enter \"./a.out <file name> <SJF, SRTF, NP, PP>\"" << endl;
+		cerr << "Error: Please enter \"./run <file name> <SJF, SRTF, NP, PP>\"" << endl;
 		return 0;
 	} else {
 		string filename = argv[1];
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
 		transform(schedType.begin(), schedType.end(), schedType.begin(), ::tolower);
 		
 		if(!isValidScheduler(schedType)) {
-			cerr << "Error: Invalid scheduling algorithm. Please enter \"./a.out <file name> <SJF, SRTF, NP, PP>\"" << endl;
+			cerr << "Error: Invalid scheduling algorithm. Please enter \"./run <file name> <SJF, SRTF, NP, PP>\"" << endl;
 			return 0;
 		}
 		

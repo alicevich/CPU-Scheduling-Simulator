@@ -4,24 +4,18 @@
 
 // Priority: priority value, lower process id as tie breaker
 
-#include "Node.h"
 #ifndef PRIORITYQ_H
 #define PRIORITYQ_H
+#include "Queue.h"
 
-class PriorityQ {
+class PriorityQ : public Queue {
 	private:
-		Node* head;
 		PriorityQ(const PriorityQ&); 
 		PriorityQ& operator=(const PriorityQ&);
 	public:
 		PriorityQ();
 		~PriorityQ();
 		void add(int, int, int, int);
-		void pop();
-		bool isEmpty() const;
-		int peekArrival() const;
-		int peekID() const;
-		int peekBurst() const;
 };
 
 #endif //PRIORITYQ_H

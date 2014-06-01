@@ -4,12 +4,11 @@
 
 #include <iostream>
 #include "ArrivalQueue.h"
-#include "Node.h"
+#include "Queue.h"
 using namespace std;
 
 ArrivalQueue::ArrivalQueue() {
 	head = 0;
-	size = 0;
 }
 
 ArrivalQueue::~ArrivalQueue() {
@@ -22,7 +21,6 @@ ArrivalQueue::~ArrivalQueue() {
 }
 
 void ArrivalQueue::add(int id, int arrival, int burst, int priority) {
-	size++;
 	Node* insert = new Node;
 	insert->id = id;
 	insert->arrival = arrival;
@@ -71,38 +69,3 @@ void ArrivalQueue::add(int id, int arrival, int burst, int priority) {
 	}
 }
 
-void ArrivalQueue::pop() {
-	size--;
-	if(head->next == 0) {
-		delete head;
-		head = 0;
-	} else {
-		Node* temp = head->next;
-		delete head;
-		head = temp;
-	}
-}
-
-bool ArrivalQueue::isEmpty() const {
-	return head == 0;
-}
-
-int ArrivalQueue::peekArrival() const {
-	return head->arrival;
-}
-
-int ArrivalQueue::peekID() const {
-	return head->id;
-}
-
-int ArrivalQueue::peekBurst() const {
-	return head->burst;
-}
-
-int ArrivalQueue::peekPriority() const {
-	return head->priority;
-}
-
-int ArrivalQueue::getSize() const {
-	return size;
-}
