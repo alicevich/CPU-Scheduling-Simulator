@@ -92,10 +92,7 @@ int main(int argc, char* argv[]) {
 			int idleTime = 0;
 			int totalTime = 0;
 			queue<int> terminationQ;
-			queue<int> turnAroundQ;
-			queue<int> waitingQ;
-			queue<int> burstQ;
-			queue<int> arrivalQ;
+			queue<int> turnAroundQ, waitingQ, burstQ, arrivalQ;
 			
 			// Display Shortest Job First simulation
 			if(schedType == "sjf") {
@@ -142,10 +139,7 @@ int main(int argc, char* argv[]) {
 				BurstPriorityQ burstPriorityQ; 
 				std::map<int, bool> map;
 				std::map<int, int> burstMap;
-				int remainingTime;
-				int currentID;
-				int currentArrival;
-				int totalTimeCount = 0;
+				int remainingTime, currentID, currentArrival, totalTimeCount = 0;
 				
 				while(!arrivalQueue.isEmpty() || !burstPriorityQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
@@ -301,12 +295,8 @@ int main(int argc, char* argv[]) {
 			} else { 
 				PriorityQ priorityQ; 
 				std::map<int, bool> map;
-				std::map<int, int> priorityMap;
-				std::map<int, int> burstMap;
-				int remainingTime;
-				int currentID;
-				int currentArrival;
-				int totalTimeCount = 0;
+				std::map<int, int> priorityMap, burstMap;
+				int remainingTime, currentID, currentArrival, totalTimeCount = 0;
 				
 				while(!arrivalQueue.isEmpty() || !priorityQ.isEmpty()) {
 					// If a new process arrives at time i, add to 
@@ -452,7 +442,7 @@ int main(int argc, char* argv[]) {
 			int worstCaseTime = 0;
 			int sum = 0;
 			while(!waitingQ.empty()) {
-				worstCaseTime = std::max(worstCaseTime, waitingQ.front());
+				worstCaseTime = max(worstCaseTime, waitingQ.front());
 				count++;
 				sum += waitingQ.front();
 				waitingQ.pop();

@@ -4,20 +4,13 @@
 
 //Priority: burst time, lower process id as tie breaker
 
+#include "Node.h"
 #ifndef BURSTPRIORITYQ_H
 #define BURSTPRIORITYQ_H
 
-struct Node2 {
-	int id;
-	int arrival;
-	int burst;
-	int priority;
-	Node2* next;
-};
-
 class BurstPriorityQ {
 	private:
-		Node2* head;
+		Node* head;
 		BurstPriorityQ(const BurstPriorityQ&); 
 		BurstPriorityQ& operator=(const BurstPriorityQ&); 
 	public:

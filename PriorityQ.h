@@ -4,20 +4,13 @@
 
 // Priority: priority value, lower process id as tie breaker
 
+#include "Node.h"
 #ifndef PRIORITYQ_H
 #define PRIORITYQ_H
 
-struct Node3{
-	int id;
-	int arrival;
-	int burst;
-	int priority;
-	Node3* next;
-};
-
 class PriorityQ {
 	private:
-		Node3* head;
+		Node* head;
 		PriorityQ(const PriorityQ&); 
 		PriorityQ& operator=(const PriorityQ&);
 	public:

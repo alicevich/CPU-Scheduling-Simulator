@@ -4,20 +4,13 @@
 
 //Priority: arrival time, lower process id as tie breaker
 
+#include "Node.h"
 #ifndef ARRIVALQUEUE_H
 #define ARRIVALQUEUE_H
 
-struct Node1 {
-	int id;
-	int arrival;
-	int burst;
-	int priority;
-	Node1* next;
-};
-
 class ArrivalQueue {
 	private:
-		Node1* head;
+		Node* head;
 		int size;
 		ArrivalQueue(const ArrivalQueue&); 
 		ArrivalQueue& operator=(const ArrivalQueue&); 

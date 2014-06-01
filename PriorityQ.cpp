@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "PriorityQ.h"
+#include "Node.h"
 using namespace std;
 
 PriorityQ::PriorityQ() {
@@ -11,7 +12,7 @@ PriorityQ::PriorityQ() {
 }
 
 PriorityQ::~PriorityQ() {
-	Node3* temp = head;
+	Node* temp = head;
 	while(head){
 		temp = head;
 		head = head->next;
@@ -20,7 +21,7 @@ PriorityQ::~PriorityQ() {
 }
 
 void PriorityQ::add(int id, int arrival, int burst, int priority) {
-	Node3* insert = new Node3;
+	Node* insert = new Node;
 	insert->id = id;
 	insert->arrival = arrival;
 	insert->burst = burst;
@@ -37,8 +38,8 @@ void PriorityQ::add(int id, int arrival, int burst, int priority) {
 			head = insert;
 		//Add to middle or back of list
 		} else  { 
-			Node3* front = 0;
-			Node3* back = head;
+			Node* front = 0;
+			Node* back = head;
 			while(back->next && back->next->priority <= insert->priority) {
 				front = back;
 				back = back->next;
@@ -73,7 +74,7 @@ void PriorityQ::pop() {
 		delete head;
 		head = 0;
 	} else {
-		Node3* temp = head->next;
+		Node* temp = head->next;
 		delete head;
 		head = temp;
 	}

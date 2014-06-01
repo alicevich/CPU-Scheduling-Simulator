@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "BurstPriorityQ.h"
+#include "Node.h"
 using namespace std;
 
 BurstPriorityQ::BurstPriorityQ() {
@@ -11,7 +12,7 @@ BurstPriorityQ::BurstPriorityQ() {
 }
 
 BurstPriorityQ::~BurstPriorityQ() {
-	Node2* temp = head;
+	Node* temp = head;
 	while(head){
 		temp = head;
 		head = head->next;
@@ -20,7 +21,7 @@ BurstPriorityQ::~BurstPriorityQ() {
 }
 
 void BurstPriorityQ::add(int id, int arrival, int burst, int priority) {
-	Node2* insert = new Node2;
+	Node* insert = new Node;
 	insert->id = id;
 	insert->arrival = arrival;
 	insert->burst = burst;
@@ -37,8 +38,8 @@ void BurstPriorityQ::add(int id, int arrival, int burst, int priority) {
 			head = insert;
 		// Add to front middle or back of list
 		} else  { 
-			Node2* front = 0;
-			Node2* back = head;
+			Node* front = 0;
+			Node* back = head;
 			while(back->next && back->next->burst <= insert->burst) {
 				front = back;
 				back = back->next;
@@ -74,7 +75,7 @@ void BurstPriorityQ::pop() {
 		delete head;
 		head = 0;
 	} else {
-		Node2* temp = head->next;
+		Node* temp = head->next;
 		delete head;
 		head = temp;
 	}

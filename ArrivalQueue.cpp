@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "ArrivalQueue.h"
+#include "Node.h"
 using namespace std;
 
 ArrivalQueue::ArrivalQueue() {
@@ -12,7 +13,7 @@ ArrivalQueue::ArrivalQueue() {
 }
 
 ArrivalQueue::~ArrivalQueue() {
-	Node1* temp = head;
+	Node* temp = head;
 	while(head){
 		temp = head;
 		head = head->next;
@@ -22,7 +23,7 @@ ArrivalQueue::~ArrivalQueue() {
 
 void ArrivalQueue::add(int id, int arrival, int burst, int priority) {
 	size++;
-	Node1* insert = new Node1;
+	Node* insert = new Node;
 	insert->id = id;
 	insert->arrival = arrival;
 	insert->burst = burst;
@@ -39,8 +40,8 @@ void ArrivalQueue::add(int id, int arrival, int burst, int priority) {
 			head = insert;
 		// Add to middle or back of list
 		} else  { 
-			Node1* front = 0;
-			Node1* back = head;
+			Node* front = 0;
+			Node* back = head;
 			while(back->next && back->next->arrival <= insert->arrival) {
 				front = back;
 				back = back->next;
@@ -76,7 +77,7 @@ void ArrivalQueue::pop() {
 		delete head;
 		head = 0;
 	} else {
-		Node1* temp = head->next;
+		Node* temp = head->next;
 		delete head;
 		head = temp;
 	}
