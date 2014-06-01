@@ -73,36 +73,35 @@ bool isValidScheduleType(string scheduleType)
 		|| scheduleType.compare("pp") == 0;
 }
 
-void displayResults(int idleTime, int totalTime, queue<int> terminationQ, 
-	queue<int> turnAroundQ, queue<int> waitingQ, queue<int> burstQ, queue<int> arrivalQ)
+void displayResults(int idleTime, queue<int> terminationQ, queue<int> turnAroundQ, 
+	queue<int> waitingQ, queue<int> burstQ, queue<int> arrivalQ)
 {
-	// Display CPU utilization
-	double x = (double(totalTime - idleTime) / totalTime) * 100;
-	double ceilX = ceil(x);
-	double mod = 1 - (ceilX - x);
-	if(mod < .5) {
-		cout << "CPU Utilization: " << floor(x) << "%" << endl;
-	} else {
-		cout << "CPU Utilization: " << ceilX << "%" << endl;
-	}
+	// Compute and display CPU utilization
+	int totalTime = terminationQ.back();
+	double percentage = (double(totalTime - idleTime) / totalTime) * 100;
+	double roundUpPercentage = ceil(percentage);
+	double delta = 1 - (roundUpPercentage - percentage);
+	percentage = (delta < .5) ? floor(percentage) : roundUpPercentage;
 	
-	// Calculate turn around times
+	cout << "CPU Utilization: " << percentage << "%" << endl;
+
+	// get turn around times
 	while (!terminationQ.empty()) {
-		int x = terminationQ.front() - arrivalQ.front();
-		turnAroundQ.push(x);
+		int delta = terminationQ.front() - arrivalQ.front();
+		turnAroundQ.push(delta);
 		terminationQ.pop();
 		arrivalQ.pop();
 	}
 	
-	// Calculate waiting times
+	// get waiting times
 	while(!turnAroundQ.empty()) {
-		int x = turnAroundQ.front() - burstQ.front();
-		waitingQ.push(x);
+		int delta = turnAroundQ.front() - burstQ.front();
+		waitingQ.push(delta);
 		turnAroundQ.pop();
 		burstQ.pop();
 	}			
 	
-	// Display avg waiting time and worst-case waiting time
+	// get avg waiting time and worst-case waiting time
 	int count = 0;
 	int worstCaseTime = 0;
 	int sum = 0;
@@ -112,6 +111,7 @@ void displayResults(int idleTime, int totalTime, queue<int> terminationQ,
 		sum += waitingQ.front();
 		waitingQ.pop();
 	}
+	
 	double avgWaitingTime = double(sum) / count;
 	printf("Average waiting time: %.2f\n", avgWaitingTime);
 	cout << "Worst-case waiting time: " << worstCaseTime << endl;
@@ -157,11 +157,8 @@ void runShortestJobFirst(ArrivalQueue& arrivalQueue)
 {		
 	bool idle = true;
 	bool outputIdle = false;
-	int time = 0;
-	int idleTime = 0;
-	int totalTime = 0;
-	queue<int> terminationQ;
-	queue<int> turnAroundQ, waitingQ, burstQ, arrivalQ;
+	int time = 0, idleTime = 0, totalTime = 0;
+	queue<int> terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ;
 	BurstPriorityQ burstPriorityQ; 
 			
 	while(!arrivalQueue.isEmpty() || !burstPriorityQ.isEmpty()) {
@@ -199,19 +196,15 @@ void runShortestJobFirst(ArrivalQueue& arrivalQueue)
 			time++;
 		}
 	}
-	totalTime = terminationQ.back();
-	displayResults(idleTime, totalTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
+	displayResults(idleTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
 }
 
 void runShortestRemainingTimeFirst(ArrivalQueue& arrivalQueue)
 {
 	bool idle = true;
 	bool outputIdle = false;
-	int time = 0;
-	int idleTime = 0;
-	int totalTime = 0;
-	queue<int> terminationQ;
-	queue<int> turnAroundQ, waitingQ, burstQ, arrivalQ;
+	int time = 0, idleTime = 0, totalTime = 0;
+	queue<int> terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ;
 	BurstPriorityQ burstPriorityQ; 
 	std::map<int, bool> map;
 	std::map<int, int> burstMap;
@@ -326,19 +319,16 @@ void runShortestRemainingTimeFirst(ArrivalQueue& arrivalQueue)
 	terminationQ.push(totalTimeCount + idleTime);
 	arrivalQ.push(currentArrival);
 	burstQ.push(burstMap[currentID]);
-	totalTime = terminationQ.back();
-	displayResults(idleTime, totalTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
+	
+	displayResults(idleTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
 }
 
 void runNonPreemptivePriority(ArrivalQueue& arrivalQueue)
 {
 	bool idle = true;
 	bool outputIdle = false;
-	int time = 0;
-	int idleTime = 0;
-	int totalTime = 0;
-	queue<int> terminationQ;
-	queue<int> turnAroundQ, waitingQ, burstQ, arrivalQ;
+	int time = 0, idleTime = 0, totalTime = 0;
+	queue<int> terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ;
 	PriorityQ priorityQ; 
 	
 	while(!arrivalQueue.isEmpty() || !priorityQ.isEmpty()) {
@@ -376,19 +366,15 @@ void runNonPreemptivePriority(ArrivalQueue& arrivalQueue)
 			time++;
 		}
 	}
-	totalTime = terminationQ.back();
-	displayResults(idleTime, totalTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
+	displayResults(idleTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
 }
 
 void runPreemptivePriority(ArrivalQueue& arrivalQueue)
 {
 	bool idle = true;
 	bool outputIdle = false;
-	int time = 0;
-	int idleTime = 0;
-	int totalTime = 0;
-	queue<int> terminationQ;
-	queue<int> turnAroundQ, waitingQ, burstQ, arrivalQ;
+	int time = 0, idleTime = 0, totalTime = 0;
+	queue<int> terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ;
 	PriorityQ priorityQ; 
 	std::map<int, bool> map;
 	std::map<int, int> priorityMap, burstMap;
@@ -503,7 +489,7 @@ void runPreemptivePriority(ArrivalQueue& arrivalQueue)
 	terminationQ.push(totalTimeCount + idleTime);
 	arrivalQ.push(currentArrival);
 	burstQ.push(burstMap[currentID]);
-	totalTime = terminationQ.back();
-	displayResults(idleTime, totalTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
+	
+	displayResults(idleTime, terminationQ, turnAroundQ, waitingQ, burstQ, arrivalQ);
 }
 
