@@ -10,9 +10,6 @@
 #include "Queue.h"
 
 class ArrivalQueue : public Queue {
-	private:
-		ArrivalQueue(const ArrivalQueue&); 
-		ArrivalQueue& operator=(const ArrivalQueue&); 
 	public:
 		ArrivalQueue();
 		~ArrivalQueue();
